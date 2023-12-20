@@ -1,0 +1,80 @@
+{% extends 'accounts/main.html' %}
+
+
+{% block content %}
+{% include 'accounts/status.html' %}
+
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .create-button {
+      background-color: blue;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+
+<body>
+
+  <h2>Customers Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for customer in customers %}
+        <tr>
+          <td><a href="{% url 'customers' customer.id %}">{{customer.name}}</a></td>
+          <td><a href="{% url 'customers' customer.id %}">{{customer.phone}}</a></td>
+        </tr>
+      {% endfor %}
+     </tbody>
+  </table>
+  <button class="create-button">Create Customer</button>
+
+  <h2>Last 5 Orders Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Date Ordered</th>
+        <th>Status</th>
+        <th>Update</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    {% for order in orders %}
+    <tr>
+      <td>{{order.product.name}}</td>
+      <td>{{order.date_created}}</td>
+      <td>{{order.status}}</td>
+      <td><a class = "btn btn-sm btn-info"href="{% url 'update_order' order.id %}">Update</a></td>
+      <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' order.id %}">Delete</a></td>
+    </tr>
+  {% endfor %}
+  </table>
+  <a class ="btn btn-sm btn-info" href="{% url 'create_order' %}">Create Order</a>
+
+
+
+
+{% endblock %}
