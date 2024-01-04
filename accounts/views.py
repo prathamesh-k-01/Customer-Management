@@ -35,11 +35,13 @@ def products(request):
 
 def customers(request, pk):
     customer = Customer.objects.get(id = pk)
-    orders = customer.order_set.all()
 
+    orders = customer.order_set.all()
     total_orders = orders.count()
 
-    myfilter = OrderFilter()
+    myfilter = OrderFilter(request.GET, queryset=orders)
+    orders = myfilter.qs
+
 
     context = {'customer': customer, 'orders':orders, 'total_orders':total_orders, 'myfilter':myfilter}
     return render(request, 'accounts/customers.html', context) 
